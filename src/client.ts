@@ -381,8 +381,8 @@ export class TrustStateClient {
   private parseBatchResponse(data: Record<string, unknown>): BatchResult {
     const rawResults = (data.results as Record<string, unknown>[]) ?? [];
     const results: ComplianceResult[] = rawResults.map((r) => {
-      // Batch API returns status: 'accepted' | 'rejected'
-      const passed = r.status === "accepted";
+      // Batch API returns status: 'accepted' | 'rejected', or passed: true/false directly
+      const passed = r.status === "accepted" || r.passed === true;
       return {
         passed,
         recordId: r.recordId as string | undefined,
