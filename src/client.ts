@@ -116,7 +116,7 @@ export class TrustStateClient {
 
     // Normalise items — assign missing entity IDs and fill defaults
     const normalised = items.map((item) => {
-      const entry: Record<string, unknown> = {
+      const entry: Record<string, unknown> & { entityId: string } = {
         entityType: item.entityType,
         data: item.data,
         action: item.action ?? "upsert",
