@@ -12,16 +12,30 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist", "src", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": ["truststate", "compliance", "AI governance", "audit", "fintech"],
+  "keywords": [
+    "truststate",
+    "compliance",
+    "AI governance",
+    "audit",
+    "fintech"
+  ],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@hsuite/smart-engines-sdk": "file:packages/smart-engines-sdk",
+    "@hsuite/smart-engines-shared": "file:packages/smart-engines-shared"
+  },
   "devDependencies": {
     "typescript": "^5",
     "@types/node": "^20",
@@ -40,6 +54,11 @@
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
     },
-    "testMatch": ["**/tests/**/*.test.ts"]
-  }
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ]
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

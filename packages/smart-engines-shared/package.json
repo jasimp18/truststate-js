@@ -1,0 +1,20 @@
+{
+  "name": "@hsuite/smart-engines-shared",
+  "version": "3.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.4.2",
+    "@nestjs/config": "^3.1.1",
+    "@nestjs/mongoose": "^10.0.2",
+    "mongoose": "^8.19.3",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
