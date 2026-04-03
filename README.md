@@ -21,7 +21,10 @@ Requires Node.js 18+ (uses native `fetch` and `crypto.randomUUID()`).
 ```typescript
 import { TrustStateClient } from "@truststate/sdk";
 
-const client = new TrustStateClient({ apiKey: "ts_your_api_key" });
+const client = new TrustStateClient({
+  apiKey: "ts_your_api_key",
+  defaultActorId: "my-service-001",  // must be registered in TrustState dashboard
+});
 
 const result = await client.check("SukukBond", {
   id: "BOND-001",
@@ -52,6 +55,7 @@ const result = await client.checkBatch(
   ],
   {
     feedLabel: "core-banking-feed",  // echoed on every item result
+    defaultActorId: "my-service-001",  // must be registered in TrustState dashboard
   }
 );
 
@@ -120,10 +124,31 @@ app.use(
 | `apiKey` | `string` | required | Your TrustState API key |
 | `baseUrl` | `string` | production URL | Override the API base URL |
 | `defaultSchemaVersion` | `string` | auto-resolved | Schema version (auto-resolved by server if omitted) |
-| `defaultActorId` | `string` | `""` | Actor ID for the audit trail |
+| `defaultActorId` | `string` | **required** | Registered Data Source ID — must match a source registered in the TrustState dashboard. All writes are rejected without a valid Source ID. |
 | `mock` | `boolean` | `false` | Enable mock mode (no HTTP calls) |
 | `mockPassRate` | `number` | `1.0` | Pass probability in mock mode (0.0–1.0) |
 | `timeoutMs` | `number` | `30000` | HTTP timeout in milliseconds |
+
+
+## Data Sources (Required)
+
+Every write must come from a **registered Data Source**. Register sources in the TrustState dashboard under **Manage → Data Sources**, then use the Source ID as `actorId`.
+
+```typescript
+// Register "my-service-001" in the dashboard first, then:
+const client = new TrustStateClient({
+  apiKey: "ts_your_api_key",
+  defaultActorId: "my-service-001",  // applies to all check() / checkBatch() calls
+});
+
+// Or pass per-call:
+const result = await client.check("KYCRecord", data, {
+  actorId: "my-service-001",
+});
+```
+
+If `actorId` is missing, the SDK throws a `TrustStateError(400)` before sending any request.
+If `actorId` is not registered, the API returns `403 UNKNOWN_SOURCE`.
 
 ## API Reference
 
@@ -216,7 +241,7 @@ interface CheckItem {
   action?: string;           // default "upsert"
   entityId?: string;         // auto-generated if omitted
   schemaVersion?: string;    // auto-resolved if omitted
-  actorId?: string;
+  actorId?: string;         // required per-item if no defaultActorId set on client
 }
 ```
 
