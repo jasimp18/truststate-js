@@ -27,6 +27,7 @@ import { ValidatorAuthClient, AuthChain, AuthenticateResponse } from './auth';
 // Sub-client imports (public only)
 import { ValidatorsClient } from './validators';
 import { SubscriptionClient } from './subscription';
+import { HederaTSSClient } from './hedera-tss';
 
 /**
  * Validate URL and enforce security requirements
@@ -160,6 +161,8 @@ export class SmartEngineClient {
   public readonly validators: ValidatorsClient;
   /** Application subscription management */
   public readonly subscription: SubscriptionClient;
+  /** Hedera TSS operations (TSS-controlled topics, accounts, tokens, messages) */
+  public readonly hederaTss: HederaTSSClient;
 
   constructor(config: SmartEngineClientConfig) {
     this.allowInsecure = config.allowInsecure ?? false;
@@ -176,6 +179,7 @@ export class SmartEngineClient {
 
     this.validators = new ValidatorsClient(httpClient);
     this.subscription = new SubscriptionClient(httpClient);
+    this.hederaTss = new HederaTSSClient(httpClient);
   }
 
   /**

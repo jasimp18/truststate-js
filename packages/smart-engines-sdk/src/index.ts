@@ -202,6 +202,24 @@ export type {
   BaasErrorDetails,
 } from './baas';
 
+// Hedera TSS sub-client - TSS-controlled topics, accounts, tokens, messages
+export * as hederaTss from './hedera-tss';
+export { HederaTSSClient } from './hedera-tss';
+export type {
+  TSSAccountRequest,
+  TSSAccountResponse,
+  MemoUpdateRequest,
+  MemoResponse,
+  TSSTopicRequest,
+  TSSTopicResponse,
+  TSSMessageRequest,
+  TSSMessageResponse,
+  TSSTokenRequest,
+  TSSTokenResponse,
+  TSSMintRequest,
+  TSSMintResponse,
+} from './hedera-tss';
+
 // NestJS integration
 export * as nestjs from './nestjs';
 export { SmartEngineModule, SmartEngineService, SMART_ENGINE_CONFIG } from './nestjs';
